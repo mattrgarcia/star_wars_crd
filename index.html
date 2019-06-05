@@ -1,0 +1,81 @@
+<html>
+  <head>
+<style>
+
+</style>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.0/react-router-dom.js'></script>
+  </head>
+  <body>
+    <div id='root'></div>
+    <script type='text/babel'>
+    const serverDomain = 'https://profs-star-wars.herokuapp.com/people';
+
+    const root = document.querySelector('#root');
+
+    import {HashRouter as Router} from 'react-router-dom';
+
+    class Nav extends React.Component{
+      render(){
+        return (
+          <div>
+            <Link to='/' exact>Home</Link>
+            <Link to ='/people'>People</Link>
+            <Link to = '/create-person'>Create A Person</Link>
+          </div>
+        )
+      }
+    }
+
+    class Checkbox extends React.Component {
+      render (){
+        return (
+          <div>
+
+          </div>
+        )
+      }
+
+    }
+
+    class People extends React.Component{
+      constructor (){
+        super();
+        this.state = {
+          people: []
+        }
+      }
+      async componentDidMount () {
+        const res = await axios.get({serverDomain});
+        this.setState({people:res.name})
+      }
+      render (){
+        return (
+          <div>
+            <form> {this.state.people.map(person => { person.name } )} </form>
+          </div>
+
+        )
+      }
+    }
+
+    class App extends React.Component{
+      render (){
+        return(
+          <Router>
+          <div>
+          <h1>Star Wars CRD (no u)</h1>
+            <Nav />
+            <People />
+          </div>
+          </Router>
+        )
+      }
+    }
+      ReactDOM.render(<App />, root);
+    </script>
+  </body>
+</html>
